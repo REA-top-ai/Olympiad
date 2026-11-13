@@ -1,30 +1,32 @@
 def get_right_vector(forward_vec: list) -> tuple:
     return (forward_vec[1], -forward_vec[0])
 
-def process_move(moves:list, forward_vec:list) -> tuple:
-    # return move_vec
-    right_vec = get_right_vector(forward_vec)
-    result = [0,0]
-    for command in moves:
-        move_vec = []
-        match command:
-            case 'F': move_vec = forward_vec
-            case 'B': move_vec = [x*-1 for x in forward_vec]
-            case 'R': move_vec = right_vec
-            case 'L': move_vec = [x*-1 for x in right_vec]
-        result[0] += move_vec[0]
-        result[1] += move_vec[1]
-    return result         
+def process_move(move:str) -> tuple:
+    # return local coords for move
+    match move:
+        case 'F': return (0,1)
+        case 'B': return (0,-1)
+        case 'R': return (1,0)
+        case 'L': return (-1,0)
 
-def process_rotation(rotators:list, forward_vec:list) -> tuple[tuple]:
-    # return new forward_vec
+def transform_vec(vector:tuple, forward_vec: list) -> tuple: 
+    # return global transform from local
     right_vec = get_right_vector(forward_vec)
+    x,y = vector
+    return (
+        x * right_vec[0] + y * forward_vec[0],
+        x * right_vec[1] + y * forward_vec[1],
+    )  
+
+def process_rotation(rotators:list) -> tuple:
+    # return delta rotation in degrees
+    rotation = 0
     for rotator in rotators:
         if rotator==')':
-            forward_vec, right_vec = right_vec, [x*-1 for x in forward_vec]
+            rotation += 90
         else:
-            forward_vec, right_vec = [x*-1 for x in right_vec], forward_vec
-    return forward_vec
+            rotation -= 90
+    return rotation % 360
 
 def process_action(action:str, pos:list, forward_vec:list) -> tuple[tuple]:
     # proces single action
