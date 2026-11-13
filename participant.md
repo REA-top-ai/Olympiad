@@ -1,10 +1,10 @@
-# Participant
+Participant
 
-<Фамилия Имя Отчество>
+Наумова Елизавета Николаевна
 
-<Группа>
+Группа 15.27Д-ИСТо2/25б
 
-## Solutions
+Solutions
 
 * solution/01_robot.py
-* solution/04_necklace.py
+* solution/03_near_perm.py
