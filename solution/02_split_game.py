@@ -7,31 +7,33 @@ def mex(arr:list) -> int:
         
     return x
 
-def g(h:int, k:int, memo) -> dict:
-    if h in memo: return memo[h]
+def calculate_grandi(h:int, k:int) -> dict:
+    g = {1:0, 2:0}
     
-    arr = []
-    for b in range((h + k) // (k + 1), (h + 1) // 2):
-        arr.append(g(h-b,k, memo) ^ g(b,k, memo))
+    for i in range(3,h+1):
+        arr = []
+        for b in range((i + k) // (k + 1), (i + 1) // 2):
+            arr.append(g[i-b] ^ g[b])
+            
+        g[i] = mex(arr)
         
-    memo[h] = mex(arr)
-    return memo[h]
-
+    return g
+        
 
 def solve(n:int ,k:int, heaps:list) -> str:
-    memo = {1:0, 2:0}
-    max_n = max(heaps)
+    max_heap = max(heaps)
+    g = calculate_grandi(max_heap, k)
     
     ans = 0
     for h in heaps:
-        ans ^= g(h,k, memo)
+        ans ^= g[h]
         
     if ans == 0: return "Lose 0"
     
     count = 0
     for h in set(heaps):
         for b in range((h + k) // (k + 1), (h + 1) // 2):
-            after = ans ^ g(h, k, memo) ^ g(b, k, memo) ^ g(h-b, k, memo)
+            after = ans ^ g[h] ^ g[h-b] ^ g[b]
             if after == 0:
                 count += 1
 
