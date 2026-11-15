@@ -1,32 +1,45 @@
-import sys
+program = input().strip()
 
-def main():
-    prog = sys.stdin.readline().strip()
-    dx = [0, 1, 0, -1]
-    dy = [1, 0, -1, 0]
+stack = []
+text = ""
+number = ""
 
-    x = y = 0
-    d = 0
+for c in program:
+    if c.isdigit():
+        number = number + c
+    elif c == "[":
+        stack.append((int(number), text))
+        number = ""
+        text = ""
+    elif c == "]":
+        times, before = stack.pop()
+        text = before + text * times
+    else:
+        text = text + c
 
-    for c in prog:
-        if c == 'F':
-            k = d
-        elif c == 'R':
-            k = (d + 1) % 4
-        elif c == 'B':
-            k = (d + 2) % 4
-        elif c == 'L':
-            k = (d + 3) % 4
-        elif c == ')':
-            d = (d + 1) % 4
-            continue
-        elif c == '(':
-            d = (d + 3) % 4
-            continue
-        else:
-            continue
-        x += dx[k]
-        y += dy[k]
-    print(x, y)
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
 
-main()
+x = 0
+y = 0
+d = 0
+
+for c in text:
+    if c == "F":
+        x += dx[d]
+        y += dy[d]
+    elif c == "B":
+        x += dx[(d + 2) % 4]
+        y += dy[(d + 2) % 4]
+    elif c == "R":
+        x += dx[(d + 1) % 4]
+        y += dy[(d + 1) % 4]
+    elif c == "L":
+        x += dx[(d + 3) % 4]
+        y += dy[(d + 3) % 4]
+    elif c == ")":
+        d = (d + 1) % 4
+    elif c == "(":
+        d = (d + 3) % 4
+
+print(x, y)
