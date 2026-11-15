@@ -2,7 +2,7 @@
 
 from functools import lru_cache
 
-def count_winning_moves(piles, k):
+def winning_moves(piles, k):
     max_size = max(piles)
     splits = [[] for i in range(max_size + 1)]
     for size in range(1, max_size + 1):
@@ -50,7 +50,7 @@ t = int(input())
 for i in range(t):
     n, k = map(int, input().split())
     piles = list(map(int, input().split()))
-    count = count_winning_moves(piles, k)
+    count = winning_moves(piles, k)
     if count > 0:
         print('Win', count)
     else:
