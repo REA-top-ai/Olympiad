@@ -61,35 +61,37 @@ def povtor(n, body, point):
     return point
 
 
-commands = input()
+if __name__ == "__main__":
 
-point = [0, 0, 'N', '']
+    commands = input()
 
-i = 0
-string_n = ''
-body = ''
+    point = [0, 0, 'N', '']
 
-while i < len(commands):
-    if commands[i] in 'FRLB)(':
-        point[3] = commands[i]
-        point = base_command(point)
-        i += 1
+    i = 0
+    string_n = ''
+    body = ''
 
-    elif commands[i].isdigit():
-        string_n += commands[i]
-        i += 1
-
-    else:
-        n = int(string_n)
-        string_n = ''
-
-        i += 1
-        while commands[i] != ']':
-            body += commands[i]
+    while i < len(commands):
+        if commands[i] in 'FRLB)(':
+            point[3] = commands[i]
+            point = base_command(point)
             i += 1
 
-        point = povtor(n, body, point)
-        body = ''
-        i += 1
+        elif commands[i].isdigit():
+            string_n += commands[i]
+            i += 1
 
-print(point[0], point[1])
+        else:
+            n = int(string_n)
+            string_n = ''
+
+            i += 1
+            while commands[i] != ']':
+                body += commands[i]
+                i += 1
+
+            point = povtor(n, body, point)
+            body = ''
+            i += 1
+
+    print(point[0], point[1])
