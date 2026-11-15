@@ -32,6 +32,5 @@ def go(prog, i):
 
 moves = {'F': (0, 1), 'B': (0, -1), 'R': (1, 0), 'L': (-1, 0)}
 prog = input().strip()
-print(prog)
 x, y, d, i = go(prog, 0)
 print(x, y)
